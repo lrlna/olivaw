@@ -1,0 +1,11 @@
+{
+  "name": "automata",
+  "version": "1.0.0",
+  "description": "binary state, one dimensional cellular automata rules",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "author": "Irina Shestak",
+  "license": "ISC"
+}
