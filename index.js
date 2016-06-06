@@ -3,32 +3,48 @@ var fs = require("fs")
 function Automata () {
   var self = {}
 
-  self.lattice = []
+  self.automata = []
 
   // create automata lattice based on size provided
   self.set = function (size) {
     if (!isNumber(size)) return false
 
+    var lattice = []
+
     // start at a random state
     size.forEach(function (number) {
       var cell = {}
       cell.state = getRandomState()
-      self.lattice.push(cell.state)
+      lattice.push(cell.state)
     })
 
-    // assign all the neighbours
-    self.setNeighbours()
+    // automata stores each lattice procedurely
+    self.automata.push(lattice)
 
-    return self.automata
+    // assign all the neighbours
+    self.setNeighbours(lattice)
+
+    return self.set
   }
 
-  // figure out neighbourhoods
+  // figure out who your neighbour are
   self.getNeighbours = function () {
 
     return self.getNeighbours
   }
 
-  self.setNeighbours = function () {
+  // set neighbourhoods for the current lattice
+  self.setNeighbours = function (lattice) {
+    lattice.forEach(function (cell) {
+      // if first cell, it's left neighbour is the last cell
+      if (cell === 0) lattice.leftNeighbour = lattice.last
+
+      // if last cell, it's right neighbour is the first cell
+      if (cell === last) lattice.rightNeighbour = lattice.first
+
+      // all else get other cells
+
+    })
 
     return self.setNeighbours
   }
