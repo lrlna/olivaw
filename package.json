@@ -1,11 +1,26 @@
 {
-  "name": "automata",
-  "version": "1.0.0",
+  "name": "olivaw",
+  "version": "0.0.1",
   "description": "binary state, one dimensional cellular automata rules",
   "main": "index.js",
   "scripts": {
     "test": "npm test"
   },
   "author": "Irina Shestak",
-  "license": "ISC"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lrlna/olivaw.git"
+  },
+  "keywords": [
+    "automata",
+    "wolfram",
+    "cellular",
+    "automata",
+    "binary"
+  ],
+  "bugs": {
+    "url": "https://github.com/lrlna/olivaw/issues"
+  },
+  "homepage": "https://github.com/lrlna/olivaw#readme"
 }
