@@ -1,12 +1,12 @@
-function Automata () {
+const Automata = () => {
   var self = {}
 
-  var neighbourhoods = [ 000, 001, 010, 011, 100, 101, 110, 111 ]
+  const neighbourhoods = [ '000', '001', '010', '011', '100', '101', '110', '111' ]
 
   self.automata = []
 
   // create automata lattice based on size provided
-  self.set = function (size) {
+  self.set = (size) => {
     if (!isNumber(size)) return false
     // possibly check whether there is already a cell in automata
 
@@ -34,12 +34,12 @@ function Automata () {
   }
 
   // figure out who your neighbour are
-  self.getNeighbours = function () {
+  self.getNeighbours = () => {
     return self.getNeighbours
   }
 
   // set neighbourhoods for the current initial lattice
-  self.setNeighbours = function (lattice) {
+  self.setNeighbours = (lattice) => {
     lattice.forEach(function (cell) {
       // if first cell, it's left neighbour is the last cell
       if (cell === 0) {
@@ -61,16 +61,17 @@ function Automata () {
     return self.setNeighbours
   }
 
-  self.nextGeneration = function() {
+  self.nextGeneration = () => {
       // copy last array, append to automaton
   }
 
   // determine rules for a given lattice
-  self.rules = function (num) {
+  self.rules = (num) => {
     // let's convert a number to 8-bit binary
     // so pass '10' to parseInt for decimal
     // and '2' toString for binary
     // pass an empty 8 digit string to force into 8-bit
+    console.log(("000000000" + parseInt(num, 10).toString(2)).substr(-8))
     return ("000000000" + parseInt(num, 10).toString(2)).substr(-8)
   }
 
