@@ -21,14 +21,12 @@ const Automata = () => {
 
     // assign rules
     var rules = self.getRules(rule)
-    // automata stores each lattice procedurely
-    self.automata.push(lattice)
 
     // assign all the neighbours
-    self.setNeighbours(lattice)
+    var lattice = self.setNeighbours(lattice)
 
-
-    console.log(lattice)
+    // automata stores each lattice procedurely
+    self.automata.push(lattice)
 
     return self.set
   }
@@ -40,26 +38,28 @@ const Automata = () => {
 
   // set neighbourhoods for the current initial lattice
   self.setNeighbours = (lattice) => {
-    console.log(lattice)
-    lattice.forEach(function (cell, index) {
+    return lattice.map(function (cell, index, array) {
+      var lastEl = lattice.length-1
+
       // if first cell, it's left neighbour is the last cell
       if (index === 0) {
-        cell.leftNeighbour = lattice.slice(-1)[0].state
+        cell.leftNeighbour = lattice[lastEl].state
         cell.rightNeighbour = lattice[index+1].state
+        return cell
       }
 
       // if last cell, it's right neighbour is the first cell
-      if (index === lattice.slice(-1)[0]) {
+      if (index === lastEl) {
         cell.rightNeighbour = lattice[0].state
         cell.leftNeighbour = lattice[index-1].state
+        return cell
       }
 
       // all else get other cells
       cell.rightNeighbour = lattice[index-1].state
       cell.leftNeighbour = lattice[index+1].state
-
+      return cell
     })
-    return self.setNeighbours
   }
 
   // determine rules for a given lattice
