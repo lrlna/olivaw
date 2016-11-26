@@ -5,30 +5,30 @@ const Automata = () => {
 
   self.automata = []
 
-  // create automata lattice based on size provided
-  self.set = (size) => {
+  // create automata lattice based on size (number of cells) provided
+  // run over a set number of a given life
+  self.set = (size, rule, life) => {
     if (!isNumber(size)) return false
     // possibly check whether there is already a cell in automata
-
     var lattice = []
 
     // start at a random state
-    size.forEach(function (number) {
+    for (var num = 0; num < size; num++) {
       var cell = {}
       cell.state = getRandomState()
-      lattice.push(cell.state)
-    })
+      lattice.push(cell)
+    }
 
+    // assign rules
+    var rules = self.getRules(rule)
     // automata stores each lattice procedurely
     self.automata.push(lattice)
 
     // assign all the neighbours
     self.setNeighbours(lattice)
 
-    // assign
-    //self.setRules(lattice)
 
-    console.log(self)
+    console.log(lattice)
 
     return self.set
   }
@@ -40,39 +40,46 @@ const Automata = () => {
 
   // set neighbourhoods for the current initial lattice
   self.setNeighbours = (lattice) => {
-    lattice.forEach(function (cell) {
+    console.log(lattice)
+    lattice.forEach(function (cell, index) {
       // if first cell, it's left neighbour is the last cell
-      if (cell === 0) {
+      if (index === 0) {
         cell.leftNeighbour = lattice.slice(-1)[0].state
-        cell.rightNeighbour = lattice[cell+1].state
+        cell.rightNeighbour = lattice[index+1].state
       }
 
       // if last cell, it's right neighbour is the first cell
-      if (cell === lattice.slice(-1)[0]) {
+      if (index === lattice.slice(-1)[0]) {
         cell.rightNeighbour = lattice[0].state
-        cell.leftNeighbour = lattice[cell-1].state
+        cell.leftNeighbour = lattice[index-1].state
       }
 
       // all else get other cells
-      cell.rightNeighbour = lattice[cell-1].state
-      cell.leftNeighbour = lattice[cell+1].state
+      cell.rightNeighbour = lattice[index-1].state
+      cell.leftNeighbour = lattice[index+1].state
 
     })
     return self.setNeighbours
   }
 
-  self.nextGeneration = () => {
-      // copy last array, append to automaton
-  }
-
   // determine rules for a given lattice
-  self.rules = (num) => {
+  self.getRules = (num) => {
     // let's convert a number to 8-bit binary
     // so pass '10' to parseInt for decimal
     // and '2' toString for binary
     // pass an empty 8 digit string to force into 8-bit
-    console.log(("000000000" + parseInt(num, 10).toString(2)).substr(-8))
     return ("000000000" + parseInt(num, 10).toString(2)).substr(-8)
+  }
+
+  self.runRules = (lattice, rules) => {
+    // check if we have an automata to run rules on
+    // otherwise throw an error
+    if (!self.automata.length) return false
+    var currentYear = self.automata.slice(-1)[0]
+  }
+
+  self.nextGeneration = () => {
+      // copy last array, append to automaton
   }
 
   function isNumber (x) {
@@ -91,4 +98,4 @@ const Automata = () => {
 
 module.exports = Automata;
 
-Automata().rules(110);
+Automata().set(20, 110, 200);
