@@ -8,7 +8,6 @@ const Automata = () => {
   // create automata lattice based on size (number of cells) provided
   // run over a set number of a given life
   self.set = (size, rule, life) => {
-    if (!isNumber(size)) return false
     // possibly check whether there is already a cell in automata
     var lattice = []
 
@@ -18,12 +17,13 @@ const Automata = () => {
     var rules = self.getRules(rule)
 
     // assign all the neighbours
-    var lattice = self.setNeighbours(lattice)
+    lattice = self.setNeighbours(lattice)
 
     // automata stores each lattice procedurely
     self.automata.push(lattice)
 
-    console.log(self.automata)
+    // modify the lattice to have the whole neighbourhood
+    lattice = self.getNeighbours(lattice)
 
     return self.set
   }
@@ -39,8 +39,15 @@ const Automata = () => {
   }
 
   // figure out who your neighbour are
-  self.getNeighbours = () => {
-    return self.getNeighbours
+  self.getNeighbours = (lattice) => {
+    return lattice.map( (cell) => {
+      var states = Object.keys(cell).map( (key) =>{
+        return cell[key]
+      })
+      // join states into a single neighbourhood
+      cell.neighbourhood = states.join('')
+      return cell
+    })
   }
 
   // set neighbourhoods for the current initial lattice
