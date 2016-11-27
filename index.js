@@ -5,29 +5,28 @@ const Automata = () => {
 
   self.automata = []
 
+  self.rule
+
   // create automata lattice based on size (number of cells) provided
   // run over a set number of a given life
   self.set = (size, rule, life) => {
+    // assign a rule binary
+    self.rule = self.getRules(rule)
+
     // possibly check whether there is already a cell in automata
     var lattice = []
 
     lattice = self.setState(lattice, size)
-
-    // assign rules
-    var rules = self.getRules(rule)
-
-    // assign all the neighbours
     lattice = self.setNeighbours(lattice)
-
-    // automata stores each lattice procedurely
-    self.automata.push(lattice)
-
     // modify the lattice to have the whole neighbourhood
     lattice = self.getNeighbours(lattice)
+    // automata stores each lattice procedurely
+    self.automata.push(lattice)
 
     return self.set
   }
 
+  // get a random state and create all cells 
   self.setState = (lattice, size) => {
     for (var num = 0; num < size; num++) {
       var cell = {}
