@@ -12,12 +12,7 @@ const Automata = () => {
     // possibly check whether there is already a cell in automata
     var lattice = []
 
-    // start at a random state
-    for (var num = 0; num < size; num++) {
-      var cell = {}
-      cell.state = getRandomState()
-      lattice.push(cell)
-    }
+    lattice = self.setState(lattice, size)
 
     // assign rules
     var rules = self.getRules(rule)
@@ -28,7 +23,19 @@ const Automata = () => {
     // automata stores each lattice procedurely
     self.automata.push(lattice)
 
+    console.log(self.automata)
+
     return self.set
+  }
+
+  self.setState = (lattice, size) => {
+    for (var num = 0; num < size; num++) {
+      var cell = {}
+      // start at a random state
+      cell.state = getRandomState()
+      lattice.push(cell)
+    }
+    return lattice
   }
 
   // figure out who your neighbour are
@@ -58,6 +65,7 @@ const Automata = () => {
       // all else get other cells
       cell.rightNeighbour = lattice[index-1].state
       cell.leftNeighbour = lattice[index+1].state
+
       return cell
     })
   }
