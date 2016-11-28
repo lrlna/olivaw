@@ -104,18 +104,10 @@ const Automata = () => {
     // get the last array
     var lastLife = automaton.slice(-1)[0]
     var newState = lastLife.map(cell => {
+      self.neighbourhood
     })
 
     return automaton.push(newState)
-  }
-
-  self.nextGeneration = () => {
-      // copy last array, append to automaton
-  }
-
-  function isNumber (x) {
-    var number = (typeof x === 'number') ? true : false
-    return number
   }
 
   function getRandomState () {
