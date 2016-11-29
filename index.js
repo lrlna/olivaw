@@ -22,7 +22,7 @@ const Automata = () => {
     lattice = self.getNeighbours(lattice)
     // automata stores each lattice procedurely
     self.automata.push(lattice)
-    self.runRules(rule, self.automata)
+    self.runRules(self.automata)
 
     return self.set
   }
@@ -99,20 +99,24 @@ const Automata = () => {
     })
   }
 
-  self.runRules = (rules, automata) => {
+  self.runRules = (automata) => {
     // can also pass an automata externally
-    var automaton = self.automata || automata
+    var automaton = automata || self.automata
     // get the last array
     var lastLife = automaton.slice(-1)[0]
-    var state = lastLife.filter( cell => {
-      return self.neighbourhoodMatrix.map( hood => {
-        if (cell.hood === hood.hood) cell.state = hood.rule
-        return cell
-      })
+    var newState = lastLife.filter(self.updateState)
+
+    // update left and right neighbours
+    lastLife = self.setNeighbours(lastLife)
+    lastLife = self.getNeighbours(lastLife)
+    return automaton.push(lastLife)
+  }
+
+  self.updateState = (cell) => {
+    return self.neighbourhoodMatrix.map(function (hood) {
+      if (cell.hood === hood.hood) cell.state = hood.rule
+      return cell
     })
-    return automaton.push(state)
-    // need to update right and left neighbour
-    // need to update cell.hood
   }
 
   function getRandomState () {
