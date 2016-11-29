@@ -23,6 +23,9 @@ const Automata = () => {
     // automata stores each lattice procedurely
     self.automata.push(lattice)
     self.runRules(self.automata)
+    // consider calling this function outside of the library instead
+    // that way user has control
+    self.runAutomata(life)
 
     return self.set
   }
@@ -87,6 +90,7 @@ const Automata = () => {
     return ("000000000" + parseInt(num, 10).toString(2)).substr(-8)
   }
 
+  // let's add rules to the neighbourhood matrix
   self.setRules = (rule) => {
     if (!rule) rule = self.rule
     rule = [...rule]
@@ -105,18 +109,26 @@ const Automata = () => {
     // get the last array
     var lastLife = automaton.slice(-1)[0]
     var newState = lastLife.filter(self.updateState)
-
     // update left and right neighbours
     lastLife = self.setNeighbours(lastLife)
     lastLife = self.getNeighbours(lastLife)
+
     return automaton.push(lastLife)
   }
 
+  // update current situation based on the 'hood matrix
   self.updateState = (cell) => {
-    return self.neighbourhoodMatrix.map(function (hood) {
+    return self.neighbourhoodMatrix.map(hood => {
       if (cell.hood === hood.hood) cell.state = hood.rule
       return cell
     })
+  }
+
+  // run automata over a specified lifetime
+  self.runAutomata = (life) => {
+    for (year = 0; year < life.length; year++ ) {
+      self.automata = self.runRules(self.automata)
+    }
   }
 
   function getRandomState () {
