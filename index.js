@@ -25,9 +25,15 @@ const Automata = () => {
     self.runRules(self.automata)
     // consider calling this function outside of the library instead
     // that way user has control
-    self.runAutomata(life)
+    //self.runAutomata(life)
 
     return self.set
+  }
+
+  // get a neighbour binary from current neighbours \o/;
+  // thank you @aredridel for the pro-tip
+  self.getNeighbours = (cell, right, left) => {
+    console.log(neighbourhoods[left ? 1 : 0 | cell ? 2 : 0 | right ? 4 : 0])
   }
 
   // get a random state and create all cells
@@ -39,18 +45,6 @@ const Automata = () => {
       lattice.push(cell)
     }
     return lattice
-  }
-
-  // figure out who your neighbour are
-  self.getNeighbours = (lattice) => {
-    return lattice.map(cell => {
-      var states = Object.keys(cell).map(key =>{
-        return cell[key]
-      })
-      // join states into a single neighbourhood
-      cell.hood = states.join('')
-      return cell
-    })
   }
 
   // set neighbourhoods for the current initial lattice
@@ -108,20 +102,6 @@ const Automata = () => {
     var automaton = automata || self.automata
     // get the last array
     var lastLife = automaton.slice(-1)[0]
-    var newState = lastLife.filter(self.updateState)
-    // update left and right neighbours
-    lastLife = self.setNeighbours(lastLife)
-    lastLife = self.getNeighbours(lastLife)
-
-    return automaton.push(lastLife)
-  }
-
-  // update current situation based on the 'hood matrix
-  self.updateState = (cell) => {
-    return self.neighbourhoodMatrix.map(hood => {
-      if (cell.hood === hood.hood) cell.state = hood.rule
-      return cell
-    })
   }
 
   // run automata over a specified lifetime
@@ -142,4 +122,6 @@ const Automata = () => {
 
 module.exports = Automata;
 
-Automata().set(20, 110, 200);
+//Automata().set(20, 110, 200);
+
+Automata().getNeighbours(0, 1, 1)
