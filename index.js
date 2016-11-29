@@ -45,7 +45,7 @@ const Automata = () => {
         return cell[key]
       })
       // join states into a single neighbourhood
-      cell.neighbourhood = states.join('')
+      cell.hood = states.join('')
       return cell
     })
   }
@@ -77,6 +77,7 @@ const Automata = () => {
     })
   }
 
+
   // determine rules for a given lattice
   self.getRules = (num) => {
     // let's convert a number to 8-bit binary
@@ -89,7 +90,7 @@ const Automata = () => {
   self.setRules = (rule) => {
     if (!rule) rule = self.rule
     rule = [...rule]
-    // i am keeping 'hood', no one argue with me
+
     return neighbourhoods.map( (hood, index) => {
       return {
         hood: hood,
@@ -103,11 +104,15 @@ const Automata = () => {
     var automaton = self.automata || automata
     // get the last array
     var lastLife = automaton.slice(-1)[0]
-    var newState = lastLife.map(cell => {
-      self.neighbourhood
+    var state = lastLife.filter( cell => {
+      return self.neighbourhoodMatrix.map( hood => {
+        if (cell.hood === hood.hood) cell.state = hood.rule
+        return cell
+      })
     })
-
-    return automaton.push(newState)
+    return automaton.push(state)
+    // need to update right and left neighbour
+    // need to update cell.hood
   }
 
   function getRandomState () {
