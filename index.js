@@ -1,7 +1,7 @@
 const Automata = () => {
   var self = {}
 
-  const neighbourhoods = [ '000', '001', '010', '011', '100', '101', '110', '111' ]
+  const neighbourhoods = ['111', '110', '101', '100', '011', '010', '001', '000']
 
   // need some automata accessible variables
   self.automata = []
@@ -10,27 +10,19 @@ const Automata = () => {
   // create automata lattice based on size (number of cells) provided
   // run over a set number of a given life
   self.set = (size, rule, life) => {
-    // possibly check whether there is already a cell in automata
-    var lattice = []
     // assign a rule binary
-    self.rule = self.getRulesBinary(rule)
+    var lattice = []
     lattice = self.setState(lattice, size)
     lattice = self.setNeighbours(lattice)
+    self.rule = self.getRulesBinary(rule)
+    console.log(lattice)
     // automata stores each lattice procedurely
     self.automata.push(lattice)
-    self.automata = self.runRules(self.automata)
-    console.log(self.automata)
     // consider calling this function outside of the library instead
     // that way user has control
-    //self.runAutomata(life)
+    self.automata = self.runRules(self.automata, life)
 
     return self.set
-  }
-
-  // get a neighbour binary from current neighbours \o/;
-  // thank you @aredridel for the pro-tip
-  self.getNeighbours = (cell, right, left) => {
-    return neighbourhoods[left ? 1 : 0 | cell ? 2 : 0 | right ? 4 : 0]
   }
 
   // get a random state and create all cells
@@ -71,6 +63,12 @@ const Automata = () => {
     })
   }
 
+  // get a neighbour binary from current neighbours \o/;
+  // thank you @aredridel for the pro-tip
+  self.getNeighbours = (cell, right, left) => {
+    return neighbourhoods[right ? 1 : 0 | cell ? 2 : 0 | left ? 4 : 0]
+  }
+
 
   // determine rules for a given lattice
   self.getRulesBinary = (num) => {
@@ -82,12 +80,14 @@ const Automata = () => {
   }
 
   // let's see which rule we are currently looking at
-  self.getRule = (neighbourhood) => {
+  self.getRule = function (neighbourhood) {
     var currentRule
     var rule = [...self.rule]
 
     neighbourhoods.forEach( (hood, index) => {
-      if (hood === neighbourhood) currentRule = rule[index]
+      if (hood === neighbourhood) {
+        currentRule = rule[index]
+      }
     })
 
     return currentRule
@@ -101,23 +101,20 @@ const Automata = () => {
     }
   }
 
-  self.runRules = (automata) => {
+  self.runRules = (automata, life, currentLife) => {
     // can also pass an automata externally
+    if (!currentLife) currentLife = 0
     var automaton = automata || self.automata
     // get the last array
     var lastLife = automaton.slice(-1)[0]
+
     var nextLife = lastLife.map(self.nextLife)
     nextLife = self.setNeighbours(nextLife)
     automaton.push(nextLife)
 
-    return automaton
-  }
+    if (currentLife < life) self.runRules(automaton, life, ++currentLife)
 
-  // run automata over a specified lifetime
-  self.runAutomata = (life) => {
-    for (year = 0; year < life.length; year++ ) {
-      self.automata = self.runRules(self.automata)
-    }
+    return automaton
   }
 
   function getRandomState () {
@@ -130,3 +127,5 @@ const Automata = () => {
 }
 
 module.exports = Automata;
+
+Automata().set(20, 110, 5)
