@@ -11,7 +11,7 @@ function Automata () {
 
   // create automata lattice based on size (number of cells) provided
   // run over a set number of a given life
-  ctx.set = (size, rule, life) => {
+  ctx.set = function (size, rule, life) {
     var lattice = []
     lattice = ctx.setState(lattice, size)
     lattice = ctx.setNeighbours(lattice)
@@ -27,7 +27,7 @@ function Automata () {
   }
 
   // get a random state and create all cells
-  ctx.setState = (lattice, size) => {
+  ctx.setState = function (lattice, size) {
     for (var num = 0; num < size; num++) {
       var cell = {}
       cell.state = getRandomState()
@@ -36,8 +36,8 @@ function Automata () {
     return lattice
   }
 
-  ctx.setNeighbours = (lattice) => {
-    return lattice.map( (cell, index, array) => {
+  ctx.setNeighbours = function (lattice) {
+    return lattice.map( function (cell, index, array) {
       var lastEl = lattice.length-1
 
       if (index === 0) {
@@ -61,13 +61,13 @@ function Automata () {
 
   // get a neighbour binary from current neighbours \o/
   // thank you @aredridel for the pro-tip
-  ctx.getNeighbours = (cell, right, left) => {
+  ctx.getNeighbours = function (cell, right, left) {
     var hood = (left ? 1 : 0) | (cell ? 2 : 0) | (right ? 4 : 0)
     return neighbourhoods[hood]
   }
 
   // determine rules for a given lattice
-  ctx.getRulesBinary = (num) => {
+  ctx.getRulesBinary = function (num) {
     // let's convert a number to 8-bit binary
     // so pass '10' to parseInt for decimal
     // and '2' toString for binary
@@ -80,7 +80,7 @@ function Automata () {
     var currentRule
     var rule = [...ctx.rule]
 
-    neighbourhoods.forEach( (hood, index) => {
+    neighbourhoods.forEach( function (hood, index) {
       if (hood === neighbourhood) {
         currentRule = rule[index]
       }
@@ -89,7 +89,7 @@ function Automata () {
     return currentRule
   }
 
-  ctx.nextLife = (cell) => {
+  ctx.nextLife = function (cell) {
     var hood = ctx.getNeighbours(cell.state, cell.right, cell.left)
     var rule = ctx.getRule(hood)
     return {
@@ -97,7 +97,7 @@ function Automata () {
     }
   }
 
-  ctx.runRules = (automata, life, currentLife) => {
+  ctx.runRules = function (automata, life, currentLife) {
     // can also pass an automata externally
     if (!currentLife) currentLife = 0
     var automaton = automata || ctx.automata
