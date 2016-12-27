@@ -3,7 +3,7 @@ module.exports = Automata;
 function Automata () {
   var ctx = {}
 
-  var neighbourhoods = ['000', '001', '010', '011', '100', '101', '110', '111']
+  var neighbourhoods = [ '111', '110', '101', '100', '011', '010', '001', '000' ]
 
   // need some automata accessible variables
   ctx.automata = []
@@ -21,7 +21,6 @@ function Automata () {
     // TODO: consider calling this function outside of the library instead
     // that way user has control
     ctx.automata = ctx.runRules(ctx.automata, life)
-    console.log(ctx.automata)
 
     return ctx.set
   }
@@ -59,59 +58,58 @@ function Automata () {
     })
   }
 
-  // get a neighbour binary from current neighbours \o/
-  // thank you @aredridel for the pro-tip
-  ctx.getNeighbours = function (cell, right, left) {
-    var hood = (left ? 1 : 0) | (cell ? 2 : 0) | (right ? 4 : 0)
-    return neighbourhoods[hood]
-  }
-
-  // determine rules for a given lattice
-  ctx.getRulesBinary = function (num) {
-    // let's convert a number to 8-bit binary
-    // so pass '10' to parseInt for decimal
-    // and '2' toString for binary
-    // pass an empty 8 digit string to force into 8-bit
-    return ("000000000" + parseInt(num, 10).toString(2)).substr(-8)
-  }
-
-  // let's see which rule we are currently looking at
-  ctx.getRule = function (neighbourhood) {
-    var currentRule
-    var rule = [...ctx.rule]
-
-    neighbourhoods.forEach( function (hood, index) {
-      if (hood === neighbourhood) {
-        currentRule = rule[index]
-      }
-    })
-
-    return currentRule
-  }
-
-  ctx.nextLife = function (cell) {
-    var hood = ctx.getNeighbours(cell.state, cell.right, cell.left)
-    var rule = ctx.getRule(hood)
-    return {
-      state: rule
-    }
-  }
-
   ctx.runRules = function (automata, life, currentLife) {
-    // can also pass an automata externally
-    if (!currentLife) currentLife = 0
+    // want to take in automata externally
     var automaton = automata || ctx.automata
-    // get the last array
     var lastLife = automaton.slice(-1)[0]
-
     var nextLife = lastLife.map(ctx.nextLife)
     nextLife = ctx.setNeighbours(nextLife)
     automaton.push(nextLife)
 
+    if (!currentLife) currentLife = 0
     if (currentLife < life) ctx.runRules(automaton, life, ++currentLife)
 
     return automaton
   }
+
+  ctx.nextLife = function (cell, index) {
+    var hood = ctx.getNeighbours(cell.state, cell.right, cell.left)
+    var rule = ctx.getRule(hood)
+
+    return {
+      state: rule
+    }
+  }
+  
+  ctx.getNeighbours = function (cell, right, left) {
+    var current = []
+    current.push.apply(current, [right, cell, left])
+    var currentHood = current.join('')
+      
+    return currentHood
+  }
+ 
+  // let's see which rule we are currently looking at
+  ctx.getRule = function (neighbourhood) {
+    var currentState = null
+    var rule = [...ctx.rule]
+    neighbourhoods.forEach( function (hood, index) {
+      if (hood === neighbourhood) {
+        currentState = rule[index]
+      }
+    })
+
+    return currentState
+  }
+  
+  // determine rules for a given lattice
+  ctx.getRulesBinary = function (num) {
+    // let's convert a number to an 8-bit bae 
+    var rule = ('000000000' + parseInt(num, 10).toString(2)).substr(-8)
+    // let's reverse it, b/c our neighbourhoods are reversed too
+    return rule
+  }
+
 
   function getRandomState () {
     var min = 0
@@ -121,5 +119,3 @@ function Automata () {
 
   return ctx
 }
-
-Automata().set(20, 110, 2)
