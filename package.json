@@ -4,7 +4,7 @@
   "description": "binary state, one dimensional cellular automata rules",
   "main": "index.js",
   "scripts": {
-    "test": "npm test"
+    "test": "standard"
   },
   "author": "Irina Shestak",
   "license": "MIT",
@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/lrlna/olivaw/issues"
   },
-  "homepage": "https://github.com/lrlna/olivaw#readme"
+  "homepage": "https://github.com/lrlna/olivaw#readme",
+  "devDependencies": {
+    "standard": "^8.6.0"
+  }
 }

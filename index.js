@@ -1,4 +1,4 @@
-module.exports = Automata;
+module.exports = Automata
 
 function Automata () {
   var ctx = {}
@@ -32,27 +32,30 @@ function Automata () {
       cell.state = getRandomState()
       lattice.push(cell)
     }
+
     return lattice
   }
 
   ctx.setNeighbours = function (lattice) {
-    return lattice.map( function (cell, index, array) {
-      var lastEl = lattice.length-1
+    return lattice.map(function (cell, index, array) {
+      var lastEl = lattice.length - 1
 
       if (index === 0) {
         cell.left = lattice[lastEl].state
-        cell.right = lattice[index+1].state
+        cell.right = lattice[index + 1].state
+
         return cell
       }
 
       if (index === lastEl) {
         cell.right = lattice[0].state
-        cell.left = lattice[index-1].state
+        cell.left = lattice[index - 1].state
+
         return cell
       }
 
-      cell.right = lattice[index-1].state
-      cell.left = lattice[index+1].state
+      cell.right = lattice[index - 1].state
+      cell.left = lattice[index + 1].state
 
       return cell
     })
@@ -80,20 +83,20 @@ function Automata () {
       state: rule
     }
   }
-  
+
   ctx.getNeighbours = function (cell, right, left) {
     var current = []
     current.push.apply(current, [right, cell, left])
     var currentHood = current.join('')
-      
+
     return currentHood
   }
- 
+
   // let's see which rule we are currently looking at
   ctx.getRule = function (neighbourhood) {
     var currentState = null
     var rule = [...ctx.rule]
-    neighbourhoods.forEach( function (hood, index) {
+    neighbourhoods.forEach(function (hood, index) {
       if (hood === neighbourhood) {
         currentState = rule[index]
       }
@@ -101,19 +104,18 @@ function Automata () {
 
     return currentState
   }
-  
+
   // determine rules for a given lattice
   ctx.getRulesBinary = function (num) {
-    // let's convert a number to an 8-bit bae 
+    // let's convert a number to an 8-bit bae
     var rule = ('000000000' + parseInt(num, 10).toString(2)).substr(-8)
-    // let's reverse it, b/c our neighbourhoods are reversed too
     return rule
   }
-
 
   function getRandomState () {
     var min = 0
     var max = 1
+
     return Math.floor(Math.random() * (max - min + 1)) + min
   }
 
