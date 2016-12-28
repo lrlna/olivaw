@@ -19,12 +19,12 @@ The output you get from `olivaw.run` is an ndarray of automata, where each array
 
 ## olivaw.set(number, rule)
 `number` represents the number of cells to be setup for this generation of automata.
-`rule ` is a number between 0 - 256, and represents on of the Wolfram's rules.
+`rule ` is a number between 0 - 256, and represents one of Wolfram's rules.
 
 ## olivaw.run(life [, automata] [, currentYear])
 `life`, if the lifespan of the current generation.
 `automata` is the array provided by `olivaw.set`, or alternatively the one you provided. This is optional
-`currentYear` is the year to start this generations. `currentYear` has to be smaller than `life`.
+`currentYear` is the year to start this generation. `currentYear` has to be smaller than `life`.
 
 Given you have this set up:
 
