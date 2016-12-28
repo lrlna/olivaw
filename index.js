@@ -63,11 +63,13 @@ function Automata () {
     })
   }
 
-  ctx.run = function (automata, life, currentLife) {
+  ctx.run = function (life, automata, currentLife) {
     assert.ok(life, 'olivaw: need to provide number')
     assert.equal(typeof life, 'number', 'olivaw: life needs to be a number')
 
     var automaton = automata || ctx.automata
+    assert.ok(automaton, 'olivaw: please run olivaw.set(number, rule), or provide an initial automata')
+
     var lastLife = automaton.slice(-1)[0]
     var nextLife = lastLife.map(ctx.nextLife)
     nextLife = ctx.setNeighbours(nextLife)
