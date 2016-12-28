@@ -1,3 +1,5 @@
+var assert = require('assert')
+
 module.exports = Automata
 
 function Automata () {
@@ -11,18 +13,18 @@ function Automata () {
 
   // create automata lattice based on size (number of cells) provided
   // run over a set number of a given life
-  ctx.set = function (size, rule, life) {
+  ctx.set = function (number, rule) {
+    assert.ok(number, 'olivaw: you will need to provide a number of cells')
+    assert.ok(rule, 'olivaw: you need a rule for olivaw to run')
+
     var lattice = []
-    lattice = ctx.setState(lattice, size)
+    lattice = ctx.setState(lattice, number)
     lattice = ctx.setNeighbours(lattice)
     ctx.rule = ctx.getRulesBinary(rule)
     // automata stores each lattice procedurely
     ctx.automata.push(lattice)
-    // TODO: consider calling this function outside of the library instead
-    // that way user has control
-    ctx.automata = ctx.runRules(ctx.automata, life)
 
-    return ctx.set
+    return ctx.automata
   }
 
   // get a random state and create all cells
@@ -61,8 +63,10 @@ function Automata () {
     })
   }
 
-  ctx.runRules = function (automata, life, currentLife) {
-    // want to take in automata externally
+  ctx.run = function (automata, life, currentLife) {
+    assert.ok(life, 'olivaw: need to provide number')
+    assert.equal(typeof life, 'number', 'olivaw: life needs to be a number')
+
     var automaton = automata || ctx.automata
     var lastLife = automaton.slice(-1)[0]
     var nextLife = lastLife.map(ctx.nextLife)
@@ -70,7 +74,7 @@ function Automata () {
     automaton.push(nextLife)
 
     if (!currentLife) currentLife = 0
-    if (currentLife < life) ctx.runRules(automaton, life, ++currentLife)
+    if (currentLife < life) ctx.run(automaton, life, ++currentLife)
 
     return automaton
   }
@@ -115,7 +119,6 @@ function Automata () {
   function getRandomState () {
     var min = 0
     var max = 1
-
     return Math.floor(Math.random() * (max - min + 1)) + min
   }
 

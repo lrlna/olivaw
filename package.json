@@ -25,5 +25,8 @@
   "homepage": "https://github.com/lrlna/olivaw#readme",
   "devDependencies": {
     "standard": "^8.6.0"
+  },
+  "dependencies": {
+    "assert": "^1.4.1"
   }
 }
