@@ -28,7 +28,7 @@ The output you get from `olivaw.run` is an ndarray of automata, where each array
 
 Given you have this set up:
 
-```
+```javascript
 var olivaw = require('olivaw')()
 
 // set up the initial year of automata's generation
@@ -40,7 +40,7 @@ var automata = olivaw.run(automaton, 3)
 
 `olivaw.run` provides the following output that you could then work with:
 
-```javascript
+``` javascript
 // automata generation
 [ 
   // year in a generation
