@@ -63,9 +63,8 @@ function Automata () {
     })
   }
 
-  ctx.run = function (life, automata, currentLife) {
-    assert.ok(life, 'olivaw: need to provide number')
-    assert.equal(typeof life, 'number', 'olivaw: life needs to be a number')
+  ctx.run = function (life, automata, currentYear) {
+    assert.ok(life, 'olivaw: need to provide number of years to run a generation')
 
     var automaton = automata || ctx.automata
     assert.ok(automaton, 'olivaw: please run olivaw.set(number, rule), or provide an initial automata')
@@ -75,8 +74,8 @@ function Automata () {
     nextLife = ctx.setNeighbours(nextLife)
     automaton.push(nextLife)
 
-    if (!currentLife) currentLife = 0
-    if (currentLife < life) ctx.run(automaton, life, ++currentLife)
+    if (!currentYear) currentYear = 0
+    if (currentYear < life) ctx.run(life, automaton, ++currentYear)
 
     return automaton
   }
