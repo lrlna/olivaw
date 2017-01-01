@@ -9,7 +9,7 @@ function Automata () {
 
   // need some automata accessible variables
   ctx.automata = []
-  ctx.rule
+  ctx.rule = ''
 
   // create automata lattice based on size (number of cells) provided
   // run over a set number of a given life
@@ -18,6 +18,9 @@ function Automata () {
     assert.ok(rule, 'olivaw: you need a rule for olivaw to run')
 
     var lattice = []
+
+    // clear automata array 
+    ctx.automata = []
     lattice = ctx.setState(lattice, number)
     lattice = ctx.setNeighbours(lattice)
     ctx.rule = ctx.getRulesBinary(rule)
