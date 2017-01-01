@@ -1,15 +1,15 @@
 var assert = require('assert')
 
-module.exports = Automata
+module.exports = Olivaw
 
-function Automata () {
+function Olivaw () {
   var ctx = {}
 
   var neighbourhoods = [ '111', '110', '101', '100', '011', '010', '001', '000' ]
 
   // need some automata accessible variables
-  ctx.automata = []
-  ctx.rule = ''
+  ctx.automata = null
+  ctx.rule = null 
 
   // create automata lattice based on size (number of cells) provided
   // run over a set number of a given life
@@ -17,15 +17,14 @@ function Automata () {
     assert.ok(number, 'olivaw: you will need to provide a number of cells')
     assert.ok(rule, 'olivaw: you need a rule for olivaw to run')
 
-    var lattice = []
+    var lattice = allocateBuffer(24) 
 
     // clear automata array 
-    ctx.automata = []
+    ctx.automata = allocateBuffer(24)
     lattice = ctx.setState(lattice, number)
     lattice = ctx.setNeighbours(lattice)
     ctx.rule = ctx.getRulesBinary(rule)
-    // automata stores each lattice procedurely
-    ctx.automata.push(lattice)
+    ctx.automata.set(lattice)
 
     return ctx.automata
   }
@@ -35,7 +34,7 @@ function Automata () {
     for (var num = 0; num < size; num++) {
       var cell = {}
       cell.state = getRandomState()
-      lattice.push(cell)
+      lattice.set(cell)
     }
 
     return lattice
@@ -126,5 +125,17 @@ function Automata () {
     return Math.floor(Math.random() * (max - min + 1)) + min
   }
 
+  function allocateBuffer (size) {
+    var newBuffer = new ArrayBuffer(size)
+    return new Uint32Array(newBuffer)
+  }
+
+  function getNormalArray (uintArray) {
+    // will need to solve recursively as automata is nested
+    return Array.prototype.slice.call(uintArray) 
+  }
+
   return ctx
 }
+
+Olivaw().set(10, 110)
