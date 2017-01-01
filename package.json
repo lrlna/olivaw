@@ -8,10 +8,7 @@
   },
   "author": "Irina Shestak",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lrlna/olivaw.git"
-  },
+  "repository": "lrlna/olivaw",
   "keywords": [
     "automata",
     "wolfram",
@@ -19,14 +16,7 @@
     "automata",
     "binary"
   ],
-  "bugs": {
-    "url": "https://github.com/lrlna/olivaw/issues"
-  },
-  "homepage": "https://github.com/lrlna/olivaw#readme",
   "devDependencies": {
     "standard": "^8.6.0"
-  },
-  "dependencies": {
-    "assert": "^1.4.1"
   }
 }
