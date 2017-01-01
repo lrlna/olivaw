@@ -1,6 +1,6 @@
 {
   "name": "olivaw",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "binary state, one dimensional cellular automata rules",
   "main": "index.js",
   "scripts": {
