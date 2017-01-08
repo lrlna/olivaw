@@ -2,36 +2,44 @@ var assert = require('assert')
 
 module.exports = Automata
 
-function Automata () {
-  var ctx = {}
+function Olivaw (opts) {
+  assert.equal(typeof opts, 'object', 'olivaw: opts should be type Object')
 
   var neighbourhoods = [ '111', '110', '101', '100', '011', '010', '001', '000' ]
 
   // need some automata accessible variables
-  ctx.automata = []
-  ctx.rule = ''
+  var automata = null
+  var rule = opts.rule
+  var population = opts.population
+  var life = opts.life
 
-  // create automata lattice based on size (number of cells) provided
-  // run over a set number of a given life
-  ctx.set = function (number, rule) {
-    assert.ok(number, 'olivaw: you will need to provide a number of cells')
-    assert.ok(rule, 'olivaw: you need a rule for olivaw to run')
+  assert.equal(typeof population, 'integer', 'olivaw: population should be type Integer')
+  assert.equal(typeof rule, 'integer', 'olivaw: rule should be type Integer')
+  assert.equal(typeof life, 'integer', 'olivaw: life should be type Integer')
 
+  return {
+    set: set
+  }
+
+  // create automata lattice based on size (population of cells) provided
+  // _run over a set population of a given life
+  function set () {
     var lattice = []
 
-    // clear automata array 
-    ctx.automata = []
-    lattice = ctx.setState(lattice, number)
-    lattice = ctx.setNeighbours(lattice)
-    ctx.rule = ctx.getRulesBinary(rule)
-    // automata stores each lattice procedurely
-    ctx.automata.push(lattice)
+    // clear automata array
+    automata = []
+    lattice = _setState(lattice, population)
+    lattice = allocateBuffer(lattice)
+    lattice = _setNeighbours(lattice)
+    rule = _getRulesBinary(rule)
+    automata.push(lattice)
+    automata = _run()
 
-    return ctx.automata
+    return automata
   }
 
   // get a random state and create all cells
-  ctx.setState = function (lattice, size) {
+  function _setState (lattice, size) {
     for (var num = 0; num < size; num++) {
       var cell = {}
       cell.state = getRandomState()
@@ -41,7 +49,7 @@ function Automata () {
     return lattice
   }
 
-  ctx.setNeighbours = function (lattice) {
+  function _setNeighbours (lattice) {
     return lattice.map(function (cell, index, array) {
       var lastEl = lattice.length - 1
 
@@ -66,33 +74,33 @@ function Automata () {
     })
   }
 
-  ctx.run = function (life, automata, currentYear) {
-    assert.ok(life, 'olivaw: need to provide number of years to run a generation')
+  function _run (currentYear) {
+    assert.ok(life, 'olivaw: need to provide number of years to _run a generation')
 
-    var automaton = automata || ctx.automata
-    assert.ok(automaton, 'olivaw: please run olivaw.set(number, rule), or provide an initial automata')
+    var automaton = automata
+    assert.ok(automaton, 'olivaw: please _run olivaw.set(population, rule), or provide an initial automata')
 
     var lastLife = automaton.slice(-1)[0]
-    var nextLife = lastLife.map(ctx.nextLife)
-    nextLife = ctx.setNeighbours(nextLife)
+    var nextLife = lastLife.map(_nextLife)
+    nextLife = _setNeighbours(nextLife)
     automaton.push(nextLife)
 
     if (!currentYear) currentYear = 0
-    if (currentYear < life) ctx.run(life, automaton, ++currentYear)
+    if (currentYear < life) _run(life, automaton, ++currentYear)
 
     return automaton
   }
 
-  ctx.nextLife = function (cell, index) {
-    var hood = ctx.getNeighbours(cell.state, cell.right, cell.left)
-    var rule = ctx.getRule(hood)
+  function _nextLife (cell, index) {
+    var hood = _getNeighbours(cell.state, cell.right, cell.left)
+    var rule = _getRule(hood)
 
     return {
       state: rule
     }
   }
 
-  ctx.getNeighbours = function (cell, right, left) {
+  function _getNeighbours (cell, right, left) {
     var current = []
     current.push.apply(current, [right, cell, left])
     var currentHood = current.join('')
@@ -101,9 +109,9 @@ function Automata () {
   }
 
   // let's see which rule we are currently looking at
-  ctx.getRule = function (neighbourhood) {
+  function _getRule (neighbourhood) {
     var currentState = null
-    var rule = [...ctx.rule]
+    var rule = [...rule]
     neighbourhoods.forEach(function (hood, index) {
       if (hood === neighbourhood) {
         currentState = rule[index]
@@ -114,17 +122,15 @@ function Automata () {
   }
 
   // determine rules for a given lattice
-  ctx.getRulesBinary = function (num) {
+  function _getRulesBinary (num) {
     // let's convert a number to an 8-bit bae
     var rule = ('000000000' + parseInt(num, 10).toString(2)).substr(-8)
     return rule
   }
+}
 
-  function getRandomState () {
-    var min = 0
-    var max = 1
-    return Math.floor(Math.random() * (max - min + 1)) + min
-  }
-
-  return ctx
+function getRandomState () {
+  var min = 0
+  var max = 1
+  return Math.floor(Math.random() * (max - min + 1)) + min
 }
