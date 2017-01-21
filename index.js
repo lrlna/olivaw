@@ -13,9 +13,9 @@ function Olivaw (opts) {
   var population = opts.population
   var life = opts.life
 
-  assert.equal(typeof population, 'integer', 'olivaw: population should be type Integer')
-  assert.equal(typeof rule, 'integer', 'olivaw: rule should be type Integer')
-  assert.equal(typeof life, 'integer', 'olivaw: life should be type Integer')
+  assert.equal(typeof population, 'number', 'olivaw: population should be type Number')
+  assert.equal(typeof rule, 'number', 'olivaw: rule should be type Number')
+  assert.equal(typeof life, 'number', 'olivaw: life should be type Number')
 
   return {
     set: set
