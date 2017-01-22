@@ -16,7 +16,7 @@ You can also find a working example over at [/cellular-automata](http://lrlna.gi
 ```js
 var olivaw = require('olivaw')()
 
-var automaton = Olivaw({
+var automaton = olivaw({
   rule: 110,
   population: 101,
   life: 500
