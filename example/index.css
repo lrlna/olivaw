@@ -1,0 +1,20 @@
+[class="1"] {
+  background-color: black;
+  width: 1em;
+  height: 1em;
+}
+
+[class="0"] {
+  background-color: white;
+  width: 1em;
+  height: 1em;
+}
+
+.year {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.generation {
+  padding-top: 2em;
+}

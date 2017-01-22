@@ -2,43 +2,64 @@
 
 A one-dimensional, binary cellular automata library built in ✨  javascript ✨ .
 
-Olivaw allows you to work with any of [Wolfram's elementary automata](https://en.wikipedia.org/wiki/Elementary_cellular_automaton) by providing one of the 256 rules. 
+Olivaw allows you to work with any of [Wolfram's elementary automata](https://en.wikipedia.org/wiki/Elementary_cellular_automaton)
+by providing one of the 256 rules. 
+
+The concept of one dimensional cellular automata is fascinating and sometimes
+might seem quite complex, I've put together an [illustrated guide](https://github.com/lrlna/sketchin/blob/master/guides/automata.md)
+to help you understand it better. 
+
+You can also find a working example over at [/cellular-automata](http://lrlna.github.io/cellular-automata)
 
 # Usage
 
-```javascript
+```js
 var olivaw = require('olivaw')()
 
-// set up the initial year of automata's generation
-var automaton = olivaw.set(101, 110)
-// run through a generation
-var automata = olivaw.run(300, automaton)
+var automaton = Olivaw({
+  rule: 110,
+  population: 101,
+  life: 500
+})
+
+// run the automata
+var automata = automaton.set()
 ```
 
-The output you get from `olivaw.run` is an ndarray of automata, where each array is a year in the generation of an automata. It's best to set the generation to run for over 100 years for more interesting results :sparkles:.
+The output you get is an ndarray (or a nested, multidimensional array) of
+automata, where each array is a year in the generation of an automata. It's best
+to set the generation to run for over 100 years for more interesting results ✨.
 
-## olivaw.set(number, rule)
-`number` represents the number of cells to be setup for this generation of automata.
-`rule ` is a number between 0 - 256, and represents one of Wolfram's rules.
+## automaton = olivaw(opts)
+Create a new instance of olivaw by providing a set of options. These three
+options are required:
+- __opts.rule__: one of 256 rules for the automata to follow 
+- __opts.population__: the population size, or the number of cells you want to
+work with 
+- __opts.life__: life span of an automata instance, or the number of years it
+will run for 
 
-## olivaw.run(life [, automata] [, currentYear])
-`life`, if the lifespan of the current generation.
-`automata` is the array provided by `olivaw.set`, or alternatively the one you provided. This is optional
-`currentYear` is the year to start this generation. `currentYear` has to be smaller than `life`.
+## olivaw.set()
+Sets up and runs your automata through it's life span. Will use the opts of
+`rule`, `population`, and `life` that you've provided when you set up olivaw.
 
 Given you have this set up:
 
-```javascript
-var olivaw = require('olivaw')()
+```js
+var olivaw = require('olivaw')
 
-// set up the initial year of automata's generation
-var automaton = olivaw.set(2, 110)
+// set up this instance of olivaw 
+var automaton = olivaw({
+  rule: 110,
+  population: 2,
+  life: 3 
+})
 // run through a generation
-var automata = olivaw.run(automaton, 3)
-
+var automata = olivaw.set()
 ```
 
-`olivaw.run` provides the following output that you could then work with:
+`olivaw.set` will return the following output that you could then work with to
+display or manipulate the data:
 
 ``` javascript
 // automata generation
@@ -64,5 +85,5 @@ var automata = olivaw.run(automaton, 3)
 # Install
 
 ```bash
-npm install olivaw
+npm install --save olivaw
 ```

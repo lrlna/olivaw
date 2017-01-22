@@ -1,6 +1,6 @@
 var assert = require('assert')
 
-module.exports = Automata
+module.exports = Olivaw
 
 function Olivaw (opts) {
   assert.equal(typeof opts, 'object', 'olivaw: opts should be type Object')
@@ -29,7 +29,6 @@ function Olivaw (opts) {
     // clear automata array
     automata = []
     lattice = _setState(lattice, population)
-    lattice = allocateBuffer(lattice)
     lattice = _setNeighbours(lattice)
     rule = _getRulesBinary(rule)
     automata.push(lattice)
