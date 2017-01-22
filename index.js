@@ -9,7 +9,7 @@ function Olivaw (opts) {
 
   // need some automata accessible variables
   var automata = null
-  var rule = opts.rule
+  var rule = typeof opts.rule === 'number' ? opts.rule : parseInt(opts.rule)
   var population = opts.population
   var life = opts.life
 
@@ -74,28 +74,24 @@ function Olivaw (opts) {
   }
 
   function _run (currentYear) {
-    assert.ok(life, 'olivaw: need to provide number of years to _run a generation')
-
     var automaton = automata
-    assert.ok(automaton, 'olivaw: please _run olivaw.set(population, rule), or provide an initial automata')
-
     var lastLife = automaton.slice(-1)[0]
     var nextLife = lastLife.map(_nextLife)
     nextLife = _setNeighbours(nextLife)
     automaton.push(nextLife)
 
     if (!currentYear) currentYear = 0
-    if (currentYear < life) _run(life, automaton, ++currentYear)
+    if (currentYear < life) _run(++currentYear)
 
     return automaton
   }
 
   function _nextLife (cell, index) {
     var hood = _getNeighbours(cell.state, cell.right, cell.left)
-    var rule = _getRule(hood)
+    var currentRule = _getRule(hood)
 
     return {
-      state: rule
+      state: currentRule
     }
   }
 
@@ -110,10 +106,10 @@ function Olivaw (opts) {
   // let's see which rule we are currently looking at
   function _getRule (neighbourhood) {
     var currentState = null
-    var rule = [...rule]
+    var currentRule = [...rule]
     neighbourhoods.forEach(function (hood, index) {
       if (hood === neighbourhood) {
-        currentState = rule[index]
+        currentState = currentRule[index]
       }
     })
 
@@ -123,8 +119,9 @@ function Olivaw (opts) {
   // determine rules for a given lattice
   function _getRulesBinary (num) {
     // let's convert a number to an 8-bit bae
-    var rule = ('000000000' + parseInt(num, 10).toString(2)).substr(-8)
-    return rule
+    var binaryRule = ('000000000' + parseInt(num, 10).toString(2)).substr(-8)
+
+    return binaryRule
   }
 }
 
