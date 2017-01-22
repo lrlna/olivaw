@@ -1,0 +1,27 @@
+{
+  "name": "cellular-automata",
+  "version": "1.0.0",
+  "description": "Elementary cellular automata in vanilla.js. This particular one follows Wolfram's [Rule 110](http://atlas.wolfram.com/01/01/110/) given a random initial condition and 100 generations.",
+  "main": "index.js",
+  "scripts": {
+    "build": "bankai build",
+    "start": "bankai start",
+    "test": "standard",
+    "publish": "npm run build && gh-pages -d dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lrlna/cellular-automata.git"
+  },
+  "author": "Irina Shestak <shestak.irina@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "choo": "^4.0.3",
+    "olivaw": "^1.0.3",
+    "tachyons": "^4.6.1"
+  },
+  "devDependencies": {
+    "bankai": "^5.2.0",
+    "gh-pages": "^0.12.0"
+  }
+}
