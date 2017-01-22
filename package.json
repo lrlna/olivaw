@@ -17,6 +17,9 @@
     "binary"
   ],
   "devDependencies": {
-    "standard": "^8.6.0"
+    "bankai": "^5.2.1",
+    "choo": "^4.1.0",
+    "standard": "^8.6.0",
+    "tachyons": "^4.6.1"
   }
 }
