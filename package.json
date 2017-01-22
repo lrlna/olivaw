@@ -4,6 +4,7 @@
   "description": "binary state, one dimensional cellular automata rules",
   "main": "index.js",
   "scripts": {
+    "start": "bankai start example", 
     "test": "standard"
   },
   "author": "Irina Shestak",

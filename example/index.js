@@ -2,7 +2,7 @@ var mount = require('choo/mount')
 var html = require('choo/html')
 var css = require('sheetify')
 var choo = require('choo')
-var olivaw = require('./')
+var olivaw = require('../')
 
 css('tachyons')
 var style = css('./index.css')
@@ -70,5 +70,5 @@ function getCell (cell) {
   return html`<div class=${cell.state}></div>`
 }
 
-app.router(['/cellular-automata/', mainView])
+app.router(['/', mainView])
 mount('body', app.start())
