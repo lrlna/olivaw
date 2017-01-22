@@ -1,10 +1,10 @@
 {
   "name": "olivaw",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "description": "binary state, one dimensional cellular automata rules",
   "main": "index.js",
   "scripts": {
-    "start": "bankai start example", 
+    "start": "bankai start example",
     "test": "standard"
   },
   "author": "Irina Shestak",
