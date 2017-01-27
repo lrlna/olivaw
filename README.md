@@ -14,7 +14,7 @@ You can also find a working example over at [/cellular-automata](http://lrlna.gi
 # Usage
 
 ```js
-var olivaw = require('olivaw')()
+var olivaw = require('olivaw')
 
 var automaton = olivaw({
   rule: 110,
