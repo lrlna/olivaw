@@ -1,5 +1,7 @@
 # Olivaw
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/lrlna/olivaw.svg)](https://greenkeeper.io/)
+
 A one-dimensional, binary cellular automata library built in ✨  javascript ✨ .
 
 Olivaw allows you to work with any of [Wolfram's elementary automata](https://en.wikipedia.org/wiki/Elementary_cellular_automaton)
