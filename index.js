@@ -126,7 +126,5 @@ function Olivaw (opts) {
 }
 
 function getRandomState () {
-  var min = 0
-  var max = 1
-  return Math.floor(Math.random() * (max - min + 1)) + min
+  return Math.random() > 0.5 ? 1 : 0
 }
